@@ -4,27 +4,35 @@ import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.io.FileReader;
+import java.io.IOException;
 
 import javax.swing.JPanel;
 
 
-public class MainMenu extends JPanel implements MouseListener, KeyListener {
+@SuppressWarnings("serial")
+public class MainMenu extends JPanel implements KeyListener {
 	private MenuButton play;
 	private MenuButton options;
 	private MenuButton exit;
+	
+	private Color color_1;
+	private Color color_2;
+	private Color color_3;
 	
 	public MainMenu() {
 		play = new MenuButton("Play");
 		options = new MenuButton("Options");
 		exit = new MenuButton("Exit");
 		
+		color_1 = Color.RED.darker();
+		color_2 = Color.GREEN.darker();
+		color_3 = Color.BLUE.darker();
+		
 		add(play);
 		add(options);
 		add(exit);
 		
-		addMouseListener(this);
 		addKeyListener(this);
 	}
 	
@@ -59,25 +67,25 @@ public class MainMenu extends JPanel implements MouseListener, KeyListener {
 		int title_width = font_metric.stringWidth("Crazy Snake");
 		switch((int)(Math.random() * 3)) {
 		case 0:
-			g.setColor(Color.RED.darker());
+			g.setColor(color_1);
 			break;
 		case 1:
-			g.setColor(Color.GREEN.darker());
+			g.setColor(color_2);
 			break;
 		case 2:
-			g.setColor(Color.BLUE.darker());
+			g.setColor(color_3);
 			break;
 		}
 		g.drawString("Crazy ", GameFrame.FRAME_WIDTH / 2 - title_width / 2, 200);
 		switch((int)(Math.random() * 3)) {
 		case 0:
-			g.setColor(Color.RED.darker());
+			g.setColor(color_1);
 			break;
 		case 1:
-			g.setColor(Color.GREEN.darker());
+			g.setColor(color_2);
 			break;
 		case 2:
-			g.setColor(Color.BLUE.darker());
+			g.setColor(color_3);
 			break;
 		}
 		g.drawString("Snake", GameFrame.FRAME_WIDTH / 2, 200);
@@ -88,34 +96,30 @@ public class MainMenu extends JPanel implements MouseListener, KeyListener {
 		exit.paintComponent(g);
 	}
 	
-	@Override
-	public void mouseClicked(MouseEvent mouse) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent mouse) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseExited(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mousePressed(MouseEvent mouse) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
+	public void readColorsFromOptions() throws IOException {
+		FileReader optionsReader = new FileReader("options.txt");
+		String readString = "";
+		for(int i = 0; i < 3; i++) {
+			char readChar = 0;
+			while((readChar = (char) optionsReader.read()) != -1 && readChar != '\n') {
+				if((readChar >= '0' && readChar <= '9') || readChar == '-') {
+					readString = readString + readChar;
+				}
+			}
+			switch(i) {
+			case 0:
+				color_1 = Color.decode(readString);
+				break;
+			case 1:
+				color_2 = Color.decode(readString);
+				break;
+			case 2:
+				color_3 = Color.decode(readString);
+				break;
+			}
+			readString = "";
+		}
+		optionsReader.close();
 	}
 
 	@Override

@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 
+@SuppressWarnings("serial")
 public class GameFrame extends JFrame {
 	public static final int FRAME_WIDTH = 800;
 	public static final int FRAME_HEIGHT = 800;
@@ -37,10 +38,12 @@ public class GameFrame extends JFrame {
 	public static void main(String[] args) {
 		GameFrame frame = new GameFrame();
 		
-		frame.options_menu_panel.writeToFile();
+		boolean read_from_file = false;
+		
 		try {
 			frame.options_menu_panel.readFromFile();
 			frame.crazy_snake_panel.readFromOptions(frame.options_menu_panel);
+			frame.main_menu_panel.readColorsFromOptions();
 		} catch (FileNotFoundException e) {
 			System.out.println("options.txt not found");
 		} catch (IOException e) {
@@ -59,19 +62,26 @@ public class GameFrame extends JFrame {
 		card_flipper.first(panel);
 		while(true) {
 			try {
-				Thread.sleep(1);
+				Thread.sleep(10);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			if(MenuButton.getPlayClicked()) {
 				if(!CrazySnake.getEscClicked()) {
+					frame.crazy_snake_panel.readFromOptions(frame.options_menu_panel);
+					try {
+						frame.crazy_snake_panel.setHighscore(frame.crazy_snake_panel.getHighScore());
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					card_flipper.next(panel);
 					frame.crazy_snake_panel.requestFocus();
 					frame.crazy_snake_panel.run();
 				}
 				else {
-					card_flipper.previous(panel);
+					card_flipper.first(panel);
 					MenuButton.setPlayClicked(false);
 					CrazySnake.setEscClicked(false);
 					frame.main_menu_panel.requestFocus();
@@ -79,7 +89,33 @@ public class GameFrame extends JFrame {
 				}
 			}
 			else if(MenuButton.getOptionsClicked()) {
-				
+				if(!OptionsMenu.getEscClicked()) {
+					if(!read_from_file) {
+						try {
+							frame.options_menu_panel.readFromFile();
+							read_from_file = true;
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+					card_flipper.last(panel);
+					frame.options_menu_panel.requestFocus();
+				}
+				else {
+					read_from_file = false;
+					try {
+						frame.main_menu_panel.readColorsFromOptions();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					card_flipper.first(panel);
+					MenuButton.setOptionsClicked(false);
+					OptionsMenu.setEscClicked(false);
+					frame.main_menu_panel.requestFocus();
+					frame.repaint();
+				}
 			}
 		}
 		

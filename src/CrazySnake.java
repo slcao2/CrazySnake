@@ -1,6 +1,5 @@
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
@@ -25,6 +24,7 @@ import javax.swing.JPanel;
  * 	Increase sleep time
  * 	Decrease snake size
  */
+@SuppressWarnings("serial")
 public class CrazySnake extends JPanel implements KeyListener {
 	public final static int UP_DIR = 0;
 	public final static int RIGHT_DIR = 1;
@@ -363,6 +363,10 @@ public class CrazySnake extends JPanel implements KeyListener {
 	
 	public static void setEscClicked(boolean bool) {
 		esc_clicked = bool;
+	}
+	
+	public void setHighscore(int num) {
+		highscore = num;
 	}
 	
 	@Override

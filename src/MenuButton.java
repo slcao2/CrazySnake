@@ -9,6 +9,7 @@ import java.awt.event.MouseListener;
 import javax.swing.JComponent;
 
 
+@SuppressWarnings("serial")
 public class MenuButton extends JComponent implements MouseListener {
 
 	private static boolean play_clicked = false;
@@ -22,12 +23,17 @@ public class MenuButton extends JComponent implements MouseListener {
 	private int button_height;
 	private Color color;
 	private Font font;
+	private int font_size;
 	
 	public MenuButton(String text) {
 		this(text, 0, 0);
 	}
 	
 	public MenuButton(String text, int xpos, int ypos) {
+		this(text, xpos, ypos, 40);
+	}
+	
+	public MenuButton(String text, int xpos, int ypos, int font_size) {
 		super();
 		
 		this.xpos = xpos;
@@ -37,8 +43,10 @@ public class MenuButton extends JComponent implements MouseListener {
 		button_width = 0;
 		button_height = 0;
 		color = Color.BLACK;
-		font = new Font(Font.SANS_SERIF, Font.BOLD, 40);
+		font = new Font(Font.SANS_SERIF, Font.BOLD, font_size);
+		this.font_size = font_size;
 		
+		setPreferredSize(new Dimension(button_width, button_height));
 		addMouseListener(this);
 	}
 	
@@ -71,21 +79,6 @@ public class MenuButton extends JComponent implements MouseListener {
 	}
 	
 	@Override
-	public Dimension getPreferredSize() {
-		return new Dimension(button_width, button_height);
-	}
-	
-	@Override 
-	public Dimension getMinimumSize() {
-		return getPreferredSize();
-	}
-	
-	@Override
-	public Dimension getMaximumSize() {
-		return getPreferredSize();
-	}
-	
-	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
@@ -110,6 +103,10 @@ public class MenuButton extends JComponent implements MouseListener {
 	public static boolean getOptionsClicked() {
 		return options_clicked;
 	}
+	
+	public static void setOptionsClicked(boolean bool) {
+		options_clicked = bool;
+	}
 
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
@@ -121,7 +118,7 @@ public class MenuButton extends JComponent implements MouseListener {
 	public void mouseEntered(MouseEvent mouse) {
 		// TODO Auto-generated method stub
 		color = Color.DARK_GRAY;
-		font = new Font(Font.SANS_SERIF, Font.BOLD, 50);
+		font = new Font(Font.SANS_SERIF, Font.BOLD, (int) (font_size * 1.1));
 		repaint();
 	}
 
@@ -129,7 +126,7 @@ public class MenuButton extends JComponent implements MouseListener {
 	public void mouseExited(MouseEvent mouse) {
 		// TODO Auto-generated method stub
 		color = Color.BLACK;
-		font = new Font(Font.SANS_SERIF, Font.BOLD, 40);
+		font = new Font(Font.SANS_SERIF, Font.BOLD, font_size);
 		repaint();
 	}
 
@@ -144,6 +141,18 @@ public class MenuButton extends JComponent implements MouseListener {
 		}
 		else if(text.equals("Options")) {
 			options_clicked = true;
+		}
+		else if(text.equals("OK")) {
+			firePropertyChange("ok", false, true);
+		}
+		else if(text.equals("Cancel")) {
+			firePropertyChange("cancel", false, true);
+		}
+		else if(text.equals("Reset Highscore")) {
+			firePropertyChange("reset", false, true);
+		}
+		else if(text.equals("Restore Default")) {
+			firePropertyChange("restore", false, true);
 		}
 	}
 
