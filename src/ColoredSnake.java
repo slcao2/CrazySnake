@@ -4,9 +4,9 @@ import java.util.Random;
 
 
 public class ColoredSnake {
-	public final static int RED_COLOR = 0;
-	public final static int GREEN_COLOR = 1;
-	public final static int BLUE_COLOR = 2;
+	public final static int COLOR_1 = 0;		//Color 1
+	public final static int COLOR_2 = 1;		//Color 2
+	public final static int COLOR_3 = 2;		//Color 3
 	
 	private ArrayList<Point> snake;
 	private ArrayList<Integer> snake_color;

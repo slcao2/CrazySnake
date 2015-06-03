@@ -1,5 +1,8 @@
 import java.awt.CardLayout;
 import java.awt.Toolkit;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -13,6 +16,7 @@ public class GameFrame extends JFrame {
 	
 	private CrazySnake crazy_snake_panel;
 	private MainMenu main_menu_panel;
+	private OptionsMenu options_menu_panel;
 	
 	public GameFrame() {
 		window_width = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
@@ -27,17 +31,32 @@ public class GameFrame extends JFrame {
 		
 		main_menu_panel = new MainMenu();
 		crazy_snake_panel = new CrazySnake();
+		options_menu_panel = new OptionsMenu();
 	}
 	
 	public static void main(String[] args) {
 		GameFrame frame = new GameFrame();
+		
+		frame.options_menu_panel.writeToFile();
+		try {
+			frame.options_menu_panel.readFromFile();
+			frame.crazy_snake_panel.readFromOptions(frame.options_menu_panel);
+		} catch (FileNotFoundException e) {
+			System.out.println("options.txt not found");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		JPanel panel = new JPanel(new CardLayout());
 		panel.add(frame.main_menu_panel);
 		panel.add(frame.crazy_snake_panel);
+		panel.add(frame.options_menu_panel);
 		frame.add(panel);
 		
 		CardLayout card_flipper = (CardLayout) panel.getLayout();
 		frame.main_menu_panel.requestFocus();
+		card_flipper.first(panel);
 		while(true) {
 			try {
 				Thread.sleep(1);

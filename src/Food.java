@@ -3,11 +3,8 @@ import java.util.Random;
 
 
 public class Food {
-	public final static int RED_FOOD = 0;
-	public final static int GREEN_FOOD = 1;
-	public final static int BLUE_FOOD = 2;
 	
-	private int food_color;
+	private int food_color;		//Color based on ColoredSnake colors
 	private Point location;
 	
 	public Food() {
