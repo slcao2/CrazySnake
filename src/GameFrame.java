@@ -23,7 +23,7 @@ public class GameFrame extends JFrame {
 		window_width = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
 		window_height = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
 		
-		//JFrame frame = new JFrame("Crazy Snake");
+		this.setTitle("CrazySnake");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setVisible(true);
 		this.setSize(FRAME_WIDTH + 6, FRAME_HEIGHT + 28);

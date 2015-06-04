@@ -1,5 +1,6 @@
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
@@ -234,6 +235,15 @@ public class CrazySnake extends JPanel implements KeyListener {
 		
 		//Paint Highscore
 		g.drawString("Highscore: " + highscore , GameFrame.FRAME_WIDTH - 170, 17);
+		
+		//Paint Game Over
+		if(dead) {
+			g.setColor(Color.BLACK);
+			g.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 160));
+			FontMetrics game_over_metrics = g.getFontMetrics();
+			g.drawString("GAME", GameFrame.FRAME_WIDTH / 2 - game_over_metrics.stringWidth("GAME") / 2, GameFrame.FRAME_HEIGHT / 2 - 100);
+			g.drawString("OVER", GameFrame.FRAME_WIDTH / 2 - game_over_metrics.stringWidth("OVER") / 2, GameFrame.FRAME_HEIGHT / 2 + 100);
+		}
 	}
 	
 	public int detectCollision() {
