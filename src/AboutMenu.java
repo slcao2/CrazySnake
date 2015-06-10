@@ -65,16 +65,14 @@ public class AboutMenu extends JPanel implements KeyListener {
 		about_font = new Font(Font.SANS_SERIF, Font.BOLD, 40);
 		g2D.setColor(new Color(40, 40, 40));
 		g2D.setFont(about_font);
-		g2D.drawString("Shortcuts", 150, 470);
+		g2D.drawString("Shortcuts", 150, 505);
 		
 		about_font = new Font(Font.SANS_SERIF, Font.BOLD, 20);
 		g2D.setColor(new Color(60, 60, 60));
 		g2D.setFont(about_font);
-		g2D.drawString("Press ESC at any menu to go back.", 160, 500);
-		g2D.drawString("Press SPACE at the main menu to play.", 160, 525);
-		g2D.drawString("Press SPACE while playing to restart.", 160, 550);
-		g2D.drawString("the food color or you might just die. In fact, yeah, ", 160, 575);
-		g2D.drawString("you die. RIP snake.", 160, 600);
+		g2D.drawString("Press ESC at any menu to go back.", 160, 535);
+		g2D.drawString("Press SPACE at the main menu to play.", 160, 560);
+		g2D.drawString("Press SPACE while playing to restart.", 160, 585);
 		
 		//Back Button
 		back.setButtonWidth(g2D.getFontMetrics(back.getFont()).stringWidth(back.getText()));
