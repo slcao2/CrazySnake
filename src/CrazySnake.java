@@ -2,7 +2,9 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.FileNotFoundException;
@@ -168,22 +170,26 @@ public class CrazySnake extends JPanel implements KeyListener {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
+		Graphics2D g2D = (Graphics2D)g;
+		g2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		g2D.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+		
 		//Paint Screen Color
 		switch(screen_color) {
 		case ColoredSnake.COLOR_1:
-			g.setColor(color_1);
+			g2D.setColor(color_1);
 			break;
 		case ColoredSnake.COLOR_2:
-			g.setColor(color_2);
+			g2D.setColor(color_2);
 			break;
 		case ColoredSnake.COLOR_3:
-			g.setColor(color_3);
+			g2D.setColor(color_3);
 			break;
 		default:
-			g.setColor(Color.WHITE.darker());
+			g2D.setColor(Color.WHITE.darker());
 			break;
 		}
-		g.fillRect(0, 0, GameFrame.FRAME_WIDTH, GameFrame.FRAME_HEIGHT);
+		g2D.fillRect(0, 0, GameFrame.FRAME_WIDTH, GameFrame.FRAME_HEIGHT);
 		
 		//Paint Food
 		int food_list_size = food_list.size();
@@ -193,56 +199,56 @@ public class CrazySnake extends JPanel implements KeyListener {
 			int single_food_y = (int) single_food.getLocation().getY();
 			switch(single_food.getFoodColor()) {
 			case ColoredSnake.COLOR_1:
-				g.setColor(color_1);
+				g2D.setColor(color_1);
 				break;
 			case ColoredSnake.COLOR_2:
-				g.setColor(color_2);
+				g2D.setColor(color_2);
 				break;
 			case ColoredSnake.COLOR_3:
-				g.setColor(color_3);
+				g2D.setColor(color_3);
 				break;
 			}
-			g.fillRect(SNAKE_SCALE * single_food_x, SNAKE_SCALE * single_food_y, SNAKE_SCALE, SNAKE_SCALE);
+			g2D.fillRect(SNAKE_SCALE * single_food_x, SNAKE_SCALE * single_food_y, SNAKE_SCALE, SNAKE_SCALE);
 		}
 		
 		//Paint Snake
 		int snake_size = snake.getSnakeSize();
-		g.setColor(Color.BLACK);
+		g2D.setColor(Color.BLACK);
 		Point snake_head = snake.getSnakeHead();
-		g.fillRect(SNAKE_SCALE * (int)snake_head.getX(), SNAKE_SCALE * (int)snake_head.getY(), SNAKE_SCALE, SNAKE_SCALE);
+		g2D.fillRect(SNAKE_SCALE * (int)snake_head.getX(), SNAKE_SCALE * (int)snake_head.getY(), SNAKE_SCALE, SNAKE_SCALE);
 		for(int i = 1; i < snake_size; i++) {
 			Point snake_piece = snake.getSnakePiece(i);
 			int snake_color = snake.getSnakeColorPiece(i);
 			switch(snake_color) {
 			case ColoredSnake.COLOR_1:
-				g.setColor(color_1);
+				g2D.setColor(color_1);
 				break;
 			case ColoredSnake.COLOR_2:
-				g.setColor(color_2);
+				g2D.setColor(color_2);
 				break;
 			case ColoredSnake.COLOR_3:
-				g.setColor(color_3);
+				g2D.setColor(color_3);
 				break;
 			}
-			g.fillRect(SNAKE_SCALE * (int)snake_piece.getX(), SNAKE_SCALE * (int)snake_piece.getY(), SNAKE_SCALE, SNAKE_SCALE);
+			g2D.fillRect(SNAKE_SCALE * (int)snake_piece.getX(), SNAKE_SCALE * (int)snake_piece.getY(), SNAKE_SCALE, SNAKE_SCALE);
 		}
 		
 		//Paint Score
-		g.setColor(Color.WHITE);
+		g2D.setColor(Color.WHITE);
 		Font score_font = new Font(Font.SANS_SERIF, Font.BOLD, 20);
-		g.setFont(score_font);
-		g.drawString("Score: " + score, 2, 17);
+		g2D.setFont(score_font);
+		g2D.drawString("Score: " + score, 2, 17);
 		
 		//Paint Highscore
-		g.drawString("Highscore: " + highscore , GameFrame.FRAME_WIDTH - 170, 17);
+		g2D.drawString("Highscore: " + highscore , GameFrame.FRAME_WIDTH - 170, 17);
 		
 		//Paint Game Over
 		if(dead) {
-			g.setColor(Color.BLACK);
-			g.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 160));
-			FontMetrics game_over_metrics = g.getFontMetrics();
-			g.drawString("GAME", GameFrame.FRAME_WIDTH / 2 - game_over_metrics.stringWidth("GAME") / 2, GameFrame.FRAME_HEIGHT / 2 - 100);
-			g.drawString("OVER", GameFrame.FRAME_WIDTH / 2 - game_over_metrics.stringWidth("OVER") / 2, GameFrame.FRAME_HEIGHT / 2 + 100);
+			g2D.setColor(Color.BLACK);
+			g2D.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 160));
+			FontMetrics game_over_metrics = g2D.getFontMetrics();
+			g2D.drawString("GAME", GameFrame.FRAME_WIDTH / 2 - game_over_metrics.stringWidth("GAME") / 2, GameFrame.FRAME_HEIGHT / 2 - 100);
+			g2D.drawString("OVER", GameFrame.FRAME_WIDTH / 2 - game_over_metrics.stringWidth("OVER") / 2, GameFrame.FRAME_HEIGHT / 2 + 100);
 		}
 	}
 	

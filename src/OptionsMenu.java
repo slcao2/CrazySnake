@@ -2,6 +2,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.beans.PropertyChangeEvent;
@@ -33,7 +35,7 @@ public class OptionsMenu extends JPanel implements KeyListener, PropertyChangeLi
 	public static final int DEFAULT_RESET_KEY = KeyEvent.VK_SPACE;
 	
 	public static final int TEXT_BUTTON_NUM = 7;
-	public static boolean esc_clicked = false;
+	private static boolean esc_clicked = false;
 	
 	private Color color_1;
 	private Color color_2;
@@ -140,31 +142,35 @@ public class OptionsMenu extends JPanel implements KeyListener, PropertyChangeLi
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
+		Graphics2D g2D = (Graphics2D)g;
+		g2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		g2D.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+		
 		//Paint Background
-		g.setColor(Color.WHITE.darker());
-		g.fillRect(0, 0, GameFrame.FRAME_WIDTH, GameFrame.FRAME_HEIGHT);
+		g2D.setColor(Color.WHITE.darker());
+		g2D.fillRect(0, 0, GameFrame.FRAME_WIDTH, GameFrame.FRAME_HEIGHT);
 		
 		//Paint Titles
 		Font options_font = new Font(Font.SANS_SERIF, Font.BOLD, 40);
-		g.setColor(Color.BLACK);
-		g.setFont(options_font);
-		g.drawString("Options", 100, 100);
+		g2D.setColor(Color.BLACK);
+		g2D.setFont(options_font);
+		g2D.drawString("Options", 100, 100);
 		
 		Color explain_color = Color.WHITE;
 		Font button_explain_font = new Font(Font.SANS_SERIF, Font.BOLD, 20);
-		g.setFont(button_explain_font);
-		g.setColor(explain_color);
-		FontMetrics explain_metrics = g.getFontMetrics();
+		g2D.setFont(button_explain_font);
+		g2D.setColor(explain_color);
+		FontMetrics explain_metrics = g2D.getFontMetrics();
 		
-		g.drawString("Set Movement Keys", GameFrame.FRAME_WIDTH / 2 - explain_metrics.stringWidth("Set Movement Keys") / 2, 200);
-		g.drawString("Set Snake Color", GameFrame.FRAME_WIDTH / 4 - explain_metrics.stringWidth("Set Snake Color") / 3, 450);
-		g.drawString("Set Screen Keys", 3 * GameFrame.FRAME_WIDTH / 4 - 2 * explain_metrics.stringWidth("Set Screen Keys") / 3 + 10, 450);
+		g2D.drawString("Set Movement Keys", GameFrame.FRAME_WIDTH / 2 - explain_metrics.stringWidth("Set Movement Keys") / 2, 200);
+		g2D.drawString("Set Snake Color", GameFrame.FRAME_WIDTH / 4 - explain_metrics.stringWidth("Set Snake Color") / 3, 450);
+		g2D.drawString("Set Screen Keys", 3 * GameFrame.FRAME_WIDTH / 4 - 2 * explain_metrics.stringWidth("Set Screen Keys") / 3 + 10, 450);
 		
 		//Paint Bottom Buttons
-		ok.paintComponent(g);
-		cancel.paintComponent(g);
-		reset.paintComponent(g);
-		restore.paintComponent(g);
+		ok.paintComponent(g2D);
+		cancel.paintComponent(g2D);
+		reset.paintComponent(g2D);
+		restore.paintComponent(g2D);
 	}
 	
 	public void restoreDefault() {

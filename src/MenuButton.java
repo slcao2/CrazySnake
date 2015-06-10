@@ -14,6 +14,7 @@ public class MenuButton extends JComponent implements MouseListener {
 
 	private static boolean play_clicked = false;
 	private static boolean options_clicked = false;
+	private static boolean about_clicked = false;
 	
 	private int xpos;
 	private int ypos;
@@ -107,6 +108,14 @@ public class MenuButton extends JComponent implements MouseListener {
 	public static void setOptionsClicked(boolean bool) {
 		options_clicked = bool;
 	}
+	
+	public static boolean getAboutClicked() {
+		return about_clicked;
+	}
+	
+	public static void setAboutClicked(boolean bool) {
+		about_clicked = bool;
+	}
 
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
@@ -142,6 +151,9 @@ public class MenuButton extends JComponent implements MouseListener {
 		else if(text.equals("Options")) {
 			options_clicked = true;
 		}
+		else if(text.equals("About")) {
+			about_clicked = true;
+		}
 		else if(text.equals("OK")) {
 			firePropertyChange("ok", false, true);
 		}
@@ -153,6 +165,9 @@ public class MenuButton extends JComponent implements MouseListener {
 		}
 		else if(text.equals("Restore Default")) {
 			firePropertyChange("restore", false, true);
+		}
+		else if(text.equals("Back")) {
+			AboutMenu.setEscClicked(true);
 		}
 	}
 

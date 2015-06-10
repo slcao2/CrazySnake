@@ -2,6 +2,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.FileReader;
@@ -15,6 +17,7 @@ public class MainMenu extends JPanel implements KeyListener {
 	private MenuButton play;
 	private MenuButton options;
 	private MenuButton exit;
+	private MenuButton about;
 	
 	private Color color_1;
 	private Color color_2;
@@ -24,6 +27,7 @@ public class MainMenu extends JPanel implements KeyListener {
 		play = new MenuButton("Play");
 		options = new MenuButton("Options");
 		exit = new MenuButton("Exit");
+		about = new MenuButton("About");
 		
 		color_1 = Color.RED.darker();
 		color_2 = Color.GREEN.darker();
@@ -32,6 +36,7 @@ public class MainMenu extends JPanel implements KeyListener {
 		add(play);
 		add(options);
 		add(exit);
+		add(about);
 		
 		addKeyListener(this);
 	}
@@ -40,60 +45,70 @@ public class MainMenu extends JPanel implements KeyListener {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
+		Graphics2D g2D = (Graphics2D)g;
+		g2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		g2D.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+		
 		//Setup Buttons
-		play.setButtonWidth(g.getFontMetrics(play.getFont()).stringWidth(play.getText()));
-		play.setButtonHeight(g.getFontMetrics(play.getFont()).getHeight());
+		play.setButtonWidth(g2D.getFontMetrics(play.getFont()).stringWidth(play.getText()));
+		play.setButtonHeight(g2D.getFontMetrics(play.getFont()).getHeight());
 		play.setXPosition(GameFrame.FRAME_WIDTH / 2 - play.getButtonWidth() / 2);
-		play.setYPosition(400);
+		play.setYPosition(350);
 		
-		options.setButtonWidth(g.getFontMetrics(options.getFont()).stringWidth(options.getText()));
-		options.setButtonHeight(g.getFontMetrics(options.getFont()).getHeight());
+		options.setButtonWidth(g2D.getFontMetrics(options.getFont()).stringWidth(options.getText()));
+		options.setButtonHeight(g2D.getFontMetrics(options.getFont()).getHeight());
 		options.setXPosition(GameFrame.FRAME_WIDTH / 2 - options.getButtonWidth() / 2);
-		options.setYPosition(500);
+		options.setYPosition(450);
 		
-		exit.setButtonWidth(g.getFontMetrics(exit.getFont()).stringWidth(exit.getText()));
-		exit.setButtonHeight(g.getFontMetrics(exit.getFont()).getHeight());
+		exit.setButtonWidth(g2D.getFontMetrics(exit.getFont()).stringWidth(exit.getText()));
+		exit.setButtonHeight(g2D.getFontMetrics(exit.getFont()).getHeight());
 		exit.setXPosition(GameFrame.FRAME_WIDTH / 2 - exit.getButtonWidth() / 2);
-		exit.setYPosition(600);
+		exit.setYPosition(650);
+		
+		about.setButtonWidth(g2D.getFontMetrics(about.getFont()).stringWidth(about.getText()));
+		about.setButtonHeight(g2D.getFontMetrics(about.getFont()).getHeight());
+		about.setXPosition(GameFrame.FRAME_WIDTH / 2 - about.getButtonWidth() / 2);
+		about.setYPosition(550);
 		
 		//Draw Background
-		g.setColor(Color.WHITE.darker());
-		g.fillRect(0, 0, GameFrame.FRAME_WIDTH, GameFrame.FRAME_HEIGHT);
+		g2D.setColor(Color.WHITE.darker());
+		g2D.fillRect(0, 0, GameFrame.FRAME_WIDTH, GameFrame.FRAME_HEIGHT);
 		
 		//Draw Title
 		Font titleFont = new Font(Font.SANS_SERIF, Font.BOLD, 80);
-		g.setFont(titleFont);
-		FontMetrics font_metric = g.getFontMetrics();
+		g2D.setFont(titleFont);
+		FontMetrics font_metric = g2D.getFontMetrics();
 		int title_width = font_metric.stringWidth("Crazy Snake");
 		switch((int)(Math.random() * 3)) {
 		case 0:
-			g.setColor(color_1);
+			g2D.setColor(color_1);
 			break;
 		case 1:
-			g.setColor(color_2);
+			g2D.setColor(color_2);
 			break;
 		case 2:
-			g.setColor(color_3);
+			g2D.setColor(color_3);
 			break;
 		}
-		g.drawString("Crazy ", GameFrame.FRAME_WIDTH / 2 - title_width / 2, 200);
+		g2D.drawString("Crazy ", GameFrame.FRAME_WIDTH / 2 - title_width / 2, 200);
 		switch((int)(Math.random() * 3)) {
 		case 0:
-			g.setColor(color_1);
+			g2D.setColor(color_1);
 			break;
 		case 1:
-			g.setColor(color_2);
+			g2D.setColor(color_2);
 			break;
 		case 2:
-			g.setColor(color_3);
+			g2D.setColor(color_3);
 			break;
 		}
-		g.drawString("Snake", GameFrame.FRAME_WIDTH / 2, 200);
+		g2D.drawString("Snake", GameFrame.FRAME_WIDTH / 2, 200);
 		
 		//Draw Buttons
-		play.paintComponent(g);
-		options.paintComponent(g);
-		exit.paintComponent(g);
+		play.paintComponent(g2D);
+		options.paintComponent(g2D);
+		exit.paintComponent(g2D);
+		about.paintComponent(g2D);
 	}
 	
 	public void readColorsFromOptions() throws IOException {

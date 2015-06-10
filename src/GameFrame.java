@@ -18,6 +18,7 @@ public class GameFrame extends JFrame {
 	private CrazySnake crazy_snake_panel;
 	private MainMenu main_menu_panel;
 	private OptionsMenu options_menu_panel;
+	private AboutMenu about_menu_panel;
 	
 	public GameFrame() {
 		window_width = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
@@ -33,6 +34,7 @@ public class GameFrame extends JFrame {
 		main_menu_panel = new MainMenu();
 		crazy_snake_panel = new CrazySnake();
 		options_menu_panel = new OptionsMenu();
+		about_menu_panel = new AboutMenu();
 	}
 	
 	public static void main(String[] args) {
@@ -52,9 +54,10 @@ public class GameFrame extends JFrame {
 		}
 		
 		JPanel panel = new JPanel(new CardLayout());
-		panel.add(frame.main_menu_panel);
-		panel.add(frame.crazy_snake_panel);
-		panel.add(frame.options_menu_panel);
+		panel.add(frame.main_menu_panel, "main_menu");
+		panel.add(frame.crazy_snake_panel, "crazy_snake");
+		panel.add(frame.options_menu_panel, "options_menu");
+		panel.add(frame.about_menu_panel, "about_menu");
 		frame.add(panel);
 		
 		CardLayout card_flipper = (CardLayout) panel.getLayout();
@@ -76,7 +79,7 @@ public class GameFrame extends JFrame {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					card_flipper.next(panel);
+					card_flipper.show(panel, "crazy_snake");
 					frame.crazy_snake_panel.requestFocus();
 					frame.crazy_snake_panel.run();
 				}
@@ -99,7 +102,7 @@ public class GameFrame extends JFrame {
 							e.printStackTrace();
 						}
 					}
-					card_flipper.last(panel);
+					card_flipper.show(panel, "options_menu");
 					frame.options_menu_panel.requestFocus();
 				}
 				else {
@@ -113,6 +116,19 @@ public class GameFrame extends JFrame {
 					card_flipper.first(panel);
 					MenuButton.setOptionsClicked(false);
 					OptionsMenu.setEscClicked(false);
+					frame.main_menu_panel.requestFocus();
+					frame.repaint();
+				}
+			}
+			else if(MenuButton.getAboutClicked()) {
+				if(!AboutMenu.getEscClicked()) {
+					card_flipper.show(panel, "about_menu");
+					frame.about_menu_panel.requestFocus();
+				}
+				else {
+					card_flipper.first(panel);
+					MenuButton.setAboutClicked(false);
+					AboutMenu.setEscClicked(false);
 					frame.main_menu_panel.requestFocus();
 					frame.repaint();
 				}
